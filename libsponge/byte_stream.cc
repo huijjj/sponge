@@ -16,39 +16,34 @@ ByteStream::ByteStream(const size_t capacity) : _capacity(capacity) {}
 
 size_t ByteStream::write(const string &data) {
     const size_t rc = remaining_capacity();
-    if(rc > 0) { // buffer is not full
-        if(rc >= data.size()) { // remaing capacity is big enough to handle all the input
-            buffer.append(data); // write data to buffer
-            written_bytes += data.size(); // update written bytes
+    if (rc > 0) {                          // buffer is not full
+        if (rc >= data.size()) {           // remaing capacity is big enough to handle all the input
+            buffer.append(data);           // write data to buffer
+            written_bytes += data.size();  // update written bytes
             return data.size();
-        }
-        else { // remaining capacity is not big enough to handle all the input
-            buffer.append(data, 0, rc); // write data to buffer
-            written_bytes += rc; // update written bytes
+        } else {                         // remaining capacity is not big enough to handle all the input
+            buffer.append(data, 0, rc);  // write data to buffer
+            written_bytes += rc;         // update written bytes
             return rc;
         }
-    }
-    else { // buffer is full
+    } else {  // buffer is full
         return 0;
     }
 }
 
 //! \param[in] len bytes will be copied from the output side of the buffer
-string ByteStream::peek_output(const size_t len) const {
-    return len > buffer.size() ? buffer : buffer.substr(0, len);
-}
+string ByteStream::peek_output(const size_t len) const { return len > buffer.size() ? buffer : buffer.substr(0, len); }
 
 //! \param[in] len bytes will be removed from the output side of the buffer
 void ByteStream::pop_output(const size_t len) {
-    if(len > buffer.size()) {
+    if (len > buffer.size()) {
         read_bytes += buffer.size();
         buffer = "";
-    }
-    else {
+    } else {
         read_bytes += len;
         buffer = buffer.substr(len);
     }
-    if(input_ended() && read_bytes == written_bytes) {
+    if (input_ended() && read_bytes == written_bytes) {
         eof_flag = true;
     }
 }
@@ -64,35 +59,21 @@ std::string ByteStream::read(const size_t len) {
 
 void ByteStream::end_input() {
     input_end_flag = true;
-    if(written_bytes == read_bytes) {
+    if (written_bytes == read_bytes) {
         eof_flag = true;
     }
 }
 
-bool ByteStream::input_ended() const { 
-    return input_end_flag;
-}
+bool ByteStream::input_ended() const { return input_end_flag; }
 
-size_t ByteStream::buffer_size() const { 
-    return buffer.size();
-}
+size_t ByteStream::buffer_size() const { return buffer.size(); }
 
-bool ByteStream::buffer_empty() const { 
-    return buffer.empty();
-}
+bool ByteStream::buffer_empty() const { return buffer.empty(); }
 
-bool ByteStream::eof() const { 
-    return eof_flag;
-}
+bool ByteStream::eof() const { return eof_flag; }
 
-size_t ByteStream::bytes_written() const { 
-    return written_bytes; 
-}
+size_t ByteStream::bytes_written() const { return written_bytes; }
 
-size_t ByteStream::bytes_read() const { 
-    return read_bytes;
-}
+size_t ByteStream::bytes_read() const { return read_bytes; }
 
-size_t ByteStream::remaining_capacity() const {
-    return _capacity - buffer.size();
-}
+size_t ByteStream::remaining_capacity() const { return _capacity - buffer.size(); }

@@ -19,27 +19,23 @@ void get_URL(const string &host, const string &path) {
 
     // cerr << "Function called: get_URL(" << host << ", " << path << ").\n";
     // cerr << "Warning: get_URL() has not been implemented yet.\n";
-    
-    const Address addr(host, "http"); // make address to resolve
-    TCPSocket sock; // declare socket to use
-    string req(
-        "GET " + path + " HTTP/1.1\r\n" +
-        "Host: " + host + "\r\n" +
-        "Connection: close\r\n" +
-        "\r\n"
-    ); // get request string
-    
-    sock.connect(addr); // connect socket to configured address
-    sock.write(req); // write get request
 
-    while(true) { // read server's response
-        if(sock.eof()) { // read until eof is reached
+    const Address addr(host, "http");  // make address to resolve
+    TCPSocket sock;                    // declare socket to use
+    string req("GET " + path + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n" +
+               "\r\n");  // get request string
+
+    sock.connect(addr);  // connect socket to configured address
+    sock.write(req);     // write get request
+
+    while (true) {         // read server's response
+        if (sock.eof()) {  // read until eof is reached
             break;
         }
         cout << sock.read();
     }
 
-    sock.close(); // close socket after request is served
+    sock.close();  // close socket after request is served
 }
 
 int main(int argc, char *argv[]) {
