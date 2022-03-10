@@ -13,14 +13,16 @@ Program Structure and Design of the StreamReassembler:
 StreamReassembler has 2 vector array. Both initialized with size of capacity.
 One(unass) for storing actual unassembled bytes and other(bitmap) for storing indicators whether if each byte in unass is occupied or not.
 public interface push_substring acts like below.
-    1. check if given parameter index is within the bound of capacity
-    2. insert given data(all or first few bytes) to unass if possible
-    3. if given data is fully inserted check the given parameter eof and set eof_flag if needed
-    4. check unass and see if there are assembled bytes
-    5. (optional) if there are, write assembled bytes to _output and update internal states  
+1. check if given parameter index is within the bound of capacity
+2. insert given data(all or first few bytes) to unass if possible
+3. if given data is fully inserted check the given parameter eof and set eof_flag if needed
+4. check unass and see if there are assembled bytes
+5. (optional) if there are, write assembled bytes to _output and update internal states  
 
 Implementation Challenges:
-Considering all exceptions.
+1. Considering all exceptions. Such as empty string with only eof.
+2. Identifying cases that can be handled together and cases that cannot.
+3. At first my internal data structure for unassembled bytes had varing length. But I found it very annoying to do the bound check for every access. So I decided to have a fixed size data structure for the ease of implementation.
 
 Remaining Bugs:
 None.

@@ -14,8 +14,8 @@ class StreamReassembler {
     // Your code here -- add private members as necessary.
     std::vector<bool> bitmap;
     std::vector<char> unass;
-    size_t cur = 0; // index of last byte in _output
-    size_t last_index = 0; // index of last byte in unass
+    size_t cur = 0;         // index of last byte in _output
+    size_t last_index = 0;  // index of last byte in unass
     bool _eof = false;
     bool active = false;
 
