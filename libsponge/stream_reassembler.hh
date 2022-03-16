@@ -16,6 +16,7 @@ class StreamReassembler {
     std::vector<char> unass;
     size_t cur = 0;         // index of last byte in _output
     size_t last_index = 0;  // index of last byte in unass
+    size_t _unassembled_bytes = 0;
     bool _eof = false;
     bool active = false;
 

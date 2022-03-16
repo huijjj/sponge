@@ -28,8 +28,11 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
                     end = _capacity;
                 }
                 for (size_t i = index; i < end; i++) {
-                    unass[i] = data[i - index];
-                    bitmap[i] = true;
+                    if(!bitmap[i]) {
+                        _unassembled_bytes++;
+                        unass[i] = data[i - index];
+                        bitmap[i] = true;
+                    }
                     inserted++;
                 }
                 if (inserted == data.size()) {  // if data is fully handled
@@ -53,8 +56,11 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
                         bytes_to_insert = _output.remaining_capacity();
                     }
                     for (size_t i = 0; i < bytes_to_insert; i++) {
-                        unass[i] = _data[i];
-                        bitmap[i] = true;
+                        if(!bitmap[i]) {
+                            _unassembled_bytes++;
+                            unass[i] = _data[i];
+                            bitmap[i] = true;
+                        }
                         inserted++;
                     }
                     if (inserted == _data.size()) {  // if data is fully handled
@@ -73,8 +79,11 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
                     bytes_to_insert = _output.remaining_capacity() - (index - cur - 1);
                 }
                 for (size_t i = 0; i < bytes_to_insert; i++) {
-                    unass[index - cur - 1 + i] = data[i];
-                    bitmap[index - cur - 1 + i] = true;
+                    if(!bitmap[index - cur - 1 + i]) {
+                        _unassembled_bytes++;
+                        unass[index - cur - 1 + i] = data[i];
+                        bitmap[index - cur - 1 + i] = true;
+                    }
                     inserted++;
                 }
                 if (inserted == data.size()) {  // if data is fully handled
@@ -94,6 +103,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
             while (reassembled_bytes < _capacity && bitmap[reassembled_bytes]) {  // count reassembled bytes
                 reassembled.push_back(unass[reassembled_bytes]);
                 reassembled_bytes++;
+                _unassembled_bytes--;
             }
             _output.write(reassembled);  // write data to output
 
@@ -130,6 +140,6 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
     }
 }
 
-size_t StreamReassembler::unassembled_bytes() const { return last_index - cur; }
+size_t StreamReassembler::unassembled_bytes() const { return _unassembled_bytes; }
 
 bool StreamReassembler::empty() const { return last_index == cur; }
