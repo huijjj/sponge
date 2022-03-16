@@ -28,7 +28,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
                     end = _capacity;
                 }
                 for (size_t i = index; i < end; i++) {
-                    if(!bitmap[i]) {
+                    if (!bitmap[i]) {
                         _unassembled_bytes++;
                         unass[i] = data[i - index];
                         bitmap[i] = true;
@@ -56,7 +56,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
                         bytes_to_insert = _output.remaining_capacity();
                     }
                     for (size_t i = 0; i < bytes_to_insert; i++) {
-                        if(!bitmap[i]) {
+                        if (!bitmap[i]) {
                             _unassembled_bytes++;
                             unass[i] = _data[i];
                             bitmap[i] = true;
@@ -79,7 +79,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
                     bytes_to_insert = _output.remaining_capacity() - (index - cur - 1);
                 }
                 for (size_t i = 0; i < bytes_to_insert; i++) {
-                    if(!bitmap[index - cur - 1 + i]) {
+                    if (!bitmap[index - cur - 1 + i]) {
                         _unassembled_bytes++;
                         unass[index - cur - 1 + i] = data[i];
                         bitmap[index - cur - 1 + i] = true;

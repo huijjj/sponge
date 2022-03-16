@@ -32,19 +32,17 @@ uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) {
     uint64_t abs_seq = n.raw_value() > isn.raw_value() ? n - isn : n.raw_value() + M - isn.raw_value();
     uint64_t diff;
 
-    if(abs_seq == checkpoint) {
+    if (abs_seq == checkpoint) {
         return abs_seq;
-    }
-    else if(abs_seq > checkpoint) {
+    } else if (abs_seq > checkpoint) {
         diff = abs_seq - checkpoint;
         diff -= diff % M;
         abs_seq -= diff;
-        if(abs_seq < M) {
+        if (abs_seq < M) {
             return abs_seq;
         }
         return abs_seq - checkpoint > checkpoint + M - abs_seq ? abs_seq - M : abs_seq;
-    }
-    else {
+    } else {
         diff = checkpoint - abs_seq;
         diff -= diff % M;
         abs_seq += diff;
