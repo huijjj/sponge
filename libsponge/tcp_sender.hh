@@ -33,11 +33,11 @@ class TCPSender {
     uint64_t _next_seqno{0};
 
     // private members for storing internal states
-    uint16_t _window_size{0}; // window size that receiver advertised
-    std::queue<TCPSegment> _on_flight{}; // on flight segments to be acknowledged
-    unsigned int _RTO; // current retransmission timeout
+    uint16_t _window_size{0};             // window size that receiver advertised
+    std::queue<TCPSegment> _on_flight{};  // on flight segments to be acknowledged
+    unsigned int _RTO;                    // current retransmission timeout
     std::optional<unsigned int> _timeout{};
-    size_t _retransmission_count{0}; // retransmission count
+    size_t _retransmission_count{0};  // retransmission count
     uint64_t _bytes_in_flight{0};
     std::optional<uint64_t> _ackno{};
     bool closed{false};
