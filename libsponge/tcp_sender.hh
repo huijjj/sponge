@@ -40,6 +40,7 @@ class TCPSender {
     size_t _retransmission_count{0}; // retransmission count
     uint64_t _bytes_in_flight{0};
     std::optional<uint64_t> _ackno{};
+    bool closed{false};
 
   public:
     //! Initialize a TCPSender
