@@ -32,6 +32,12 @@ class TCPSender {
     //! the (absolute) sequence number for the next byte to be sent
     uint64_t _next_seqno{0};
 
+    // private members for storing internal states
+    uint16_t _window_size{1}; // window size that receiver advertised
+    std::queue<TCPSegment> _on_flight{}; // on flight segments to be acknowledged
+    unsigned int _RTO; // current retransmission timeout
+    size_t _retransmission_count{0}; // retransmission count
+
   public:
     //! Initialize a TCPSender
     TCPSender(const size_t capacity = TCPConfig::DEFAULT_CAPACITY,
