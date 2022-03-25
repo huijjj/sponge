@@ -43,9 +43,10 @@ void TCPSender::fill_window() {
     // SYN is acknowledged
     if(_stream.input_ended()) { // we have to consider FIN
         // size_t bytes_to_send = _window_size ? _window_size : 1;
-        size_t bytes_to_send = _window_size ? _ackno.value() + _window_size - _next_seqno : 1;
+        size_t bytes_to_send = _window_size ? _ackno.value() + _window_size > _next_seqno ? _ackno.value() + _window_size - _next_seqno : 0 : 1;
         if(bytes_to_send >= _stream.buffer_size() + 1) { // receiver window can handle all the data
-            bytes_to_send = _stream.buffer_size();
+            bytes_to_send = _stream.buffer_size() + 1;
+
             while(bytes_to_send) {
                 TCPSegment s;
                 
@@ -106,7 +107,7 @@ void TCPSender::fill_window() {
             return;
         }
         // uint16_t bytes_to_send = _window_size ? _window_size : 1;
-        size_t bytes_to_send = _window_size ? _ackno.value() + _window_size - _next_seqno : 1;
+        size_t bytes_to_send = _window_size ? _ackno.value() + _window_size > _next_seqno ? _ackno.value() + _window_size - _next_seqno : 0 : 1;
         while(bytes_to_send) {
             TCPSegment s;
             
@@ -189,7 +190,7 @@ void TCPSender::tick(const size_t ms_since_last_tick) {
     }
     else { // timer expired
         _segments_out.push(_on_flight.front()); // retransmit the earliest segment
-        if(_window_size) { // if window size is non zero
+        if(_window_size ? _window_size : 1) { // if window size is non zero
             _retransmission_count++; // increase retransmission count
             _RTO *= 2; // exponential backoff
         }
