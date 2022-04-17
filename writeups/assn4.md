@@ -1,13 +1,13 @@
 Assignment 4 Writeup
 =============
 
-My name: [your name here]
+My name: 정희종
 
-My POVIS ID: [your povis id here]
+My POVIS ID: hui0213
 
-My student ID (numeric): [your student id here]
+My student ID (numeric): 20190846
 
-This assignment took me about [n] hours to do (including the time on studying, designing, and writing the code).
+This assignment took me about 7 hours to do (including the time on studying, designing, and writing the code).
 
 If you used any part of best-submission codes, specify all the best-submission numbers that you used (e.g., 1, 2): []
 
@@ -16,10 +16,10 @@ If you used any part of best-submission codes, specify all the best-submission n
 Your benchmark results (without reordering, with reordering): [0.00, 0.00]
 
 Program Structure and Design of the TCPConnection:
-[]
+TCPConnection wires TCPSender and TCPReceiver implemented before. Manages some internal state for starting and closing the connection. But basically almost all functionalities are implemented in the sender and receiver. TCPConnection just simply passes received segments to receiver and notify sender and send the segments that sender wants to send. Also, TCPConnection also provides outer interface for reading and writing through TCP.
 
 Implementation Challenges:
-[]
+Implementing shutdown logic.
 
 Remaining Bugs:
 []
