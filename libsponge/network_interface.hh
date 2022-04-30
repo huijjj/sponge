@@ -9,6 +9,7 @@
 #include <queue>
 
 #include <map>
+#include <vector>
 #include <utility>
 
 //! \brief A "network interface" that connects IP (the internet layer, or network layer)
@@ -43,7 +44,7 @@ class NetworkInterface {
     //! outbound queue of Ethernet frames that the NetworkInterface wants sent
     std::queue<EthernetFrame> _frames_out{};
 
-    std::queue< std::pair<InternetDatagram, uint32_t> > pending{};
+    std::vector< std::pair<InternetDatagram, uint32_t> > pending{};
     std::map<uint32_t, size_t> resolving{};
     std::map<uint32_t, std::pair< EthernetAddress, size_t> > translation{};
 
