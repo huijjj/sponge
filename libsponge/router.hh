@@ -5,6 +5,14 @@
 
 #include <optional>
 #include <queue>
+#include <vector>
+
+struct Route {
+    const uint32_t prefix;
+    const uint8_t len;
+    const std::optional<Address> next_hop;
+    const size_t n;
+};
 
 //! \brief A wrapper for NetworkInterface that makes the host-side
 //! interface asynchronous: instead of returning received datagrams
@@ -43,6 +51,7 @@ class AsyncNetworkInterface : public NetworkInterface {
 class Router {
     //! The router's collection of network interfaces
     std::vector<AsyncNetworkInterface> _interfaces{};
+    std::vector<Route> _routes{}; // data structure for storing routes
 
     //! Send a single datagram from the appropriate outbound interface to the next hop,
     //! as specified by the route with the longest prefix_length that matches the
