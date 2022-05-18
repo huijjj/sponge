@@ -51,7 +51,7 @@ class AsyncNetworkInterface : public NetworkInterface {
 class Router {
     //! The router's collection of network interfaces
     std::vector<AsyncNetworkInterface> _interfaces{};
-    std::vector<Route> _routes{}; // data structure for storing routes
+    std::vector<Route> _routes{};  // data structure for storing routes
 
     //! Send a single datagram from the appropriate outbound interface to the next hop,
     //! as specified by the route with the longest prefix_length that matches the
